@@ -32,6 +32,17 @@ div.banner {
   padding-bottom: 5%;
 }
 
+#list_item_card_completed {
+  color: green;
+}
+#list_item_card_not_completed {
+  color: red;
+}
+#list_item_task_header, #list_item_due_date_header, #list_item_status_header {
+  font-weight: bold;
+  font-size: 24pt;
+}
+
 .home_new_list_button {
   font-size: 32pt;
 }

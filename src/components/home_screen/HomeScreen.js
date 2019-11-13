@@ -4,8 +4,21 @@ import { compose } from 'redux';
 import { NavLink, Redirect } from 'react-router-dom';
 import { firestoreConnect } from 'react-redux-firebase';
 import TodoListLinks from './TodoListLinks'
+import {newListHandler} from '../../store/database/asynchHandler'
 
 class HomeScreen extends Component {
+
+    handleNewList = (e) => {
+        let list = {
+        "name": "Unknown",
+        "owner": "Unknown",
+        "items": [],
+        "last_updated": new Date()
+    };
+        const { props, state } = this;
+        const { firebase } = props;
+        props.newList(this.props.todoLists, firebase, list);
+    }
 
     render() {
         if (!this.props.auth.uid) {
@@ -43,8 +56,12 @@ const mapStateToProps = (state) => {
     };
 };
 
+const mapDispatchToProps = dispatch => ({
+    newList: (todoLists, firebase, list) => dispatch(newListHandler(todoLists, firebase, list))
+  });
+
 export default compose(
-    connect(mapStateToProps),
+    connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
       { collection: 'todoLists' },
     ]),

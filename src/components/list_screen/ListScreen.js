@@ -26,7 +26,8 @@ class ListScreen extends Component {
         if (!auth.uid) {
             return <Redirect to="/" />;
         }
-
+        if(!todoList)
+        return <React.Fragment />
         return (
             <div className="container white">
                 <h5 className="grey-text text-darken-3">Todo List</h5>
@@ -38,7 +39,15 @@ class ListScreen extends Component {
                     <label htmlFor="password">Owner</label>
                     <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} value={todoList.owner} />
                 </div>
+                <div id="list_items_container">
+                    <div id="list_item_header_card" className="z-depth-0 todo-list-link grey row">
+                        <div id="list_item_task_header" className="col s4">Task</div> 
+                        {/* Remember to do onclick for sorting for each header */}
+                        <div id="list_item_due_date_header" className="col s3">Due Date</div>
+                        <div id="list_item_status_header" className="col s3">Status</div>
+                    </div>
                 <ItemsList todoList={todoList} />
+                </div>
             </div>
         );
     }
@@ -48,7 +57,9 @@ const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps.match.params;
   const { todoLists } = state.firestore.data;
   const todoList = todoLists ? todoLists[id] : null;
-  todoList.id = id;
+//   todoList.id = id;
+  if(todoList)
+	todoList.id = id;
 
   return {
     todoList,
