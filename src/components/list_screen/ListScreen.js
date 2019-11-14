@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import ItemsList from './ItemsList.js'
 import { firestoreConnect } from 'react-redux-firebase';
+import {updatedListHandler} from '../../store/database/asynchHandler';
 
 class ListScreen extends Component {
     state = {
@@ -12,12 +13,24 @@ class ListScreen extends Component {
     }
 
     handleChange = (e) => {
+        
+        const { props, state } = this;
+        const { firebase } = props;
+        const {firestore} = props;
         const { target } = e;
 
         this.setState(state => ({
             ...state,
             [target.id]: target.value,
         }));
+        if(target.name == "name"){
+            this.props.todoList.name=target.value;
+        }
+        else{
+            this.props.todoList.owner =target.value;
+        }
+        props.updatedList(this.props.todoList);
+
     }
 
     render() {
@@ -32,11 +45,11 @@ class ListScreen extends Component {
             <div className="container white">
                 <h5 className="grey-text text-darken-3">Todo List</h5>
                 <div className="input-field">
-                    <label htmlFor="email">Name</label>
+                    <label htmlFor="email" className="active">Name</label>
                     <input className="active" type="text" name="name" id="name" onChange={this.handleChange} value={todoList.name} />
                 </div>
                 <div className="input-field">
-                    <label htmlFor="password">Owner</label>
+                    <label htmlFor="password" className="active">Owner</label>
                     <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} value={todoList.owner} />
                 </div>
                 <div id="list_items_container">
@@ -47,7 +60,14 @@ class ListScreen extends Component {
                         <div id="list_item_status_header" className="col s3">Status</div>
                     </div>
                 <ItemsList todoList={todoList} />
+    
                 </div>
+                <div className="input-field row">
+                  <button type="submit" id="list_item_add_card" className="btn pink lighten-1 z-depth-0 col s2 offset-s5">+</button>       
+                    {/* <a className="btn-floating ">
+                      <i className="material-icons">add</i>
+                    </a> */}
+                  </div>     
             </div>
         );
     }
@@ -57,7 +77,6 @@ const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps.match.params;
   const { todoLists } = state.firestore.data;
   const todoList = todoLists ? todoLists[id] : null;
-//   todoList.id = id;
   if(todoList)
 	todoList.id = id;
 
@@ -67,8 +86,12 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
+const mapDispatchToProps = dispatch => ({
+    updatedList: (todoList) => dispatch(updatedListHandler(todoList)),
+  });
+
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect([
     { collection: 'todoLists' },
   ]),

@@ -9,14 +9,19 @@ import {newListHandler} from '../../store/database/asynchHandler'
 class HomeScreen extends Component {
 
     handleNewList = (e) => {
+        const { props, state } = this;
+        const { firebase } = props;
+        const {firestore} = props;
         let list = {
         "name": "Unknown",
         "owner": "Unknown",
         "items": [],
+        // "last_updated": firebase.firestore.FieldValue.serverTimestamp()
         "last_updated": new Date()
+
     };
-        const { props, state } = this;
-        const { firebase } = props;
+        // const { props, state } = this;
+        // const { firebase } = props;
         props.newList(this.props.todoLists, firebase, list);
     }
 

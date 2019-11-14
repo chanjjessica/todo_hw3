@@ -48,3 +48,9 @@ input[type=email]:not(.browser-default):focus:not([readonly]) + label,
 input[type=password]:not(.browser-default):focus:not([readonly]) + label{
   color: #ec407a !important;
 }
+
+.list_item_add_card {
+  left: 50%;
+  display: absolute ;
+  vertical-align: center;
+}
