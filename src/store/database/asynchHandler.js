@@ -48,7 +48,8 @@ export const updatedListHandler = (todoList) => (dispatch, getState, { getFirest
   const firestore = getFirestore();
   firestore.collection("todoLists").doc(todoList.id).update({
     "name":todoList.name,
-    "owner":todoList.owner
+    "owner":todoList.owner,
+    "items": todoList.items
   })
 
 };

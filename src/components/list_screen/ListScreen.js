@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import ItemsList from './ItemsList.js'
 import { firestoreConnect } from 'react-redux-firebase';
 import {updatedListHandler} from '../../store/database/asynchHandler';
+import { Modal, Button } from 'react-materialize';
 
 class ListScreen extends Component {
     state = {
@@ -43,7 +44,13 @@ class ListScreen extends Component {
         return <React.Fragment />
         return (
             <div className="container white">
-                <h5 className="grey-text text-darken-3">Todo List</h5>
+                
+                <h5 className="grey-text text-darken-3">Item</h5>
+
+                <div class="btn-floating btn-large pink lighten-1" id="trash">
+                    <i class="large material-icons">delete</i>
+                </div>
+
                 <div className="input-field">
                     <label htmlFor="email" className="active">Name</label>
                     <input className="active" type="text" name="name" id="name" onChange={this.handleChange} value={todoList.name} />
@@ -54,20 +61,20 @@ class ListScreen extends Component {
                 </div>
                 <div id="list_items_container">
                     <div id="list_item_header_card" className="z-depth-0 todo-list-link grey row">
-                        <div id="list_item_task_header" className="col s4">Task</div> 
+                        <div id="list_item_task_header" className="col s3">Task</div> 
                         {/* Remember to do onclick for sorting for each header */}
                         <div id="list_item_due_date_header" className="col s3">Due Date</div>
-                        <div id="list_item_status_header" className="col s3">Status</div>
+                        <div id="list_item_status_header" className="col s2">Status</div>
                     </div>
                 <ItemsList todoList={todoList} />
     
                 </div>
-                <div className="input-field row">
-                  <button type="submit" id="list_item_add_card" className="btn pink lighten-1 z-depth-0 col s2 offset-s5">+</button>       
-                    {/* <a className="btn-floating ">
-                      <i className="material-icons">add</i>
-                    </a> */}
-                  </div>     
+                <button className="btn-floating btn-large pink lighten-1" id="add_card">
+                  {/* <button type="submit" id="list_item_add_card" className="btn pink lighten-1 row">+</button>        */}
+                    {/* <a className="btn-floating pink lighten-1"> */}
+                      <i className="material-icons ">add</i>
+                    {/* </a> */}
+                  </button>     
             </div>
         );
     }

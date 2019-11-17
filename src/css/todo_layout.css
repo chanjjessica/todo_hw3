@@ -49,8 +49,10 @@ input[type=password]:not(.browser-default):focus:not([readonly]) + label{
   color: #ec407a !important;
 }
 
-.list_item_add_card {
-  left: 50%;
-  display: absolute ;
-  vertical-align: center;
+#add_card {
+  margin-left:50%;
+}
+
+#trash {
+  margin-left: 90%;
 }

@@ -13,6 +13,7 @@ class ItemsList extends React.Component {
             <div className="todo-lists section">
                 {items && items.map(function(item) {
                     item.id = item.key;
+                    {/* item.key = item.id; */}
                     return (
                         <ItemCard todoList={todoList} item={item} />
                     );})
@@ -24,6 +25,9 @@ class ItemsList extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     const todoList = ownProps.todoList;
+    // console.log('helloooooooooo');
+
+    console.log(ownProps);
     return {
         todoList,
         auth: state.firebase.auth,

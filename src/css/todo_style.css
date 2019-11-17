@@ -49,10 +49,3 @@ div.banner {
 .home_new_list_button:hover {
   box-shadow: 1px 2px;
 }
-
-#list_item_add_card {
-  font-weight: bold;
-  font-size: 20pt;
-  text-align: center;
-  vertical-align: center;
-}
