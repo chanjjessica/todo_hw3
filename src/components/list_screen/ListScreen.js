@@ -45,7 +45,7 @@ class ListScreen extends Component {
         return (
             <div className="container white">
                 
-                <h5 className="grey-text text-darken-3">Item</h5>
+                <h5 className="grey-text text-darken-3">Todo List</h5>
 
                 <div class="btn-floating btn-large pink lighten-1" id="trash">
                     <i class="large material-icons">delete</i>

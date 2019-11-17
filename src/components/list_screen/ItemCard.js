@@ -3,7 +3,7 @@ import {updatedListHandler} from '../../store/database/asynchHandler';
 import { firestoreConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Modal, Button } from 'react-materialize';
+import { Modal, Button, Row, Col, Icon } from 'react-materialize';
 
 
 
@@ -90,8 +90,8 @@ class ItemCard extends React.Component {
         return (
                 
             <div className="card z-depth-0 todo-list-link grey lighten-3">
-                    <div className="card-content row"> 
-                        <div className="col s3">
+                    <Row className="card-content row"> 
+                        <Col className="col s3">
                             
                             <span>{item.description}<br></br></span>
                             <span>
@@ -99,41 +99,50 @@ class ItemCard extends React.Component {
 
                             </span>
 
-                        </div>
-                        <span className="col s3"> {item.due_date}</span>
-                        <span className="col s2" id={statusID} >{statusText}</span>
+                        </Col>
+                        <Col className="col s3"> {item.due_date}</Col>
+                        <Col className="col s2" id={statusID} >{statusText}</Col>
 
-                        <div className="col s4"> 
-
-                            <Button
+                        {/* <Col className="col s4 offset-s11">  */}
+                        <Button
+                            className="pink"
+                            id="fab"
                             floating
                             fab={{direction: 'left'}}
-                            className="red"
                             large
+                            style={{position:'relative'}}
+                            waves="light"
+
                             >
 
-                                <div class="btn-floating grey" onClick={()=>this.handleMoveUp(item)} >
+                                <div class="btn-floating grey" onClick={()=>this.handleMoveUp(item)} style={{position:'relative'}}>
                                     <i class="large material-icons">arrow_upward</i>
                                 </div>
 
-                                <div class="btn-floating grey" onClick={()=>this.handleMoveDown(item)}>
+                                <div class="btn-floating grey" onClick={()=>this.handleMoveDown(item)} style={{position:'relative'}}>
                                     <i class="large material-icons">arrow_downward</i>
                                 </div>
 
-                                <div class="btn-floating  grey" onClick={()=>this.handleDeleteItem(item)}>
+                                <div class="btn-floating  grey" onClick={()=>this.handleDeleteItem(item)} style={{position:'relative'}}>
                                     <i class="large material-icons">clear</i>
                                 </div>
-
+                                {/* <Button floating icon={<Icon />} className="red" style={{position:'relative'}}
+/>
+                                <Button floating icon={<Icon />} className="yellow darken-1" />
+                                <Button floating icon={<Icon />} className="green" /> */}
+{/* 
                                 <div class="btn-floating pink lighten-1">
                                     <i class="large material-icons">keyboard_arrow_left</i>
-                                </div>
+                                </div> */}
                             
                             </Button>
 
-                        </div>
 
 
-                    </div>
+                        {/* </Col> */}
+
+
+                    </Row>
                 </div>
         );
     }

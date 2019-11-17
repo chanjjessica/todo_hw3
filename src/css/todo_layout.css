@@ -56,3 +56,8 @@ input[type=password]:not(.browser-default):focus:not([readonly]) + label{
 #trash {
   margin-left: 90%;
 }
+
+#fab {
+  margin-left: 90%;
+  bottom: 2px;
+}
