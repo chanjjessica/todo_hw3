@@ -167,16 +167,17 @@ class ListScreen extends Component {
         //   this.props.updatedList(this.props.todoList);
         // }
 
-        if (this.state.updated == false) {
-          this.props.updatedList(this.props.todoList);
-          this.state.updated=true;
-        }
 
         if (!auth.uid) {
             return <Redirect to="/" />;
         }
         if(!todoList)
         return <React.Fragment />
+
+        if (this.state.updated == false) {
+          this.props.updatedList(this.props.todoList);
+          this.state.updated=true;
+        }
         return (
           
             <div className="container white">
