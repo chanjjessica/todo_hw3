@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import TodoListCard from './TodoListCard';
+import {updatedListHandler} from '../../store/database/asynchHandler';
+import { firestoreConnect } from 'react-redux-firebase';
+
 
 class TodoListLinks extends React.Component {
     render() {
@@ -13,13 +16,16 @@ class TodoListLinks extends React.Component {
                 {todoLists && todoLists.map(todoList => (
                     <Link to={'/todoList/' + todoList.id} key={todoList.id}>
                     {/* todolist.id */}
-                        <TodoListCard todoList={todoList} index={todoLists.indexOf(todoList)}/>
+                        <TodoListCard todoList={todoList} index={todoLists.indexOf(todoList)} onClick={updatedListHandler(todoList)}/>
                     </Link>
                 ))}
             </div>
         );
     }
 }
+const mapDispatchToProps = dispatch => ({
+    updatedList: (todoList) => dispatch(updatedListHandler(todoList)),
+  });
 
 const mapStateToProps = (state) => {
     return {

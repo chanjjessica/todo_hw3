@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { Redirect } from 'react-router-dom';
 import { registerHandler } from '../../store/database/asynchHandler';
 import Checkbox from 'react-materialize/lib/Checkbox';
-import {addItemHandler} from '../../store/database/asynchHandler';
+import {addItemHandler, updatedListHandler} from '../../store/database/asynchHandler';
 
 class ItemScreen extends Component {
   todoList = this.props.todoList;
@@ -42,16 +42,19 @@ class ItemScreen extends Component {
   }
 
   handleSubmit = (e) => {
-    e.preventDefault();
-    // console.log(this.state.item.completed);
-
-
+      e.preventDefault();
+    // console.log(this.state.item.completed);  
+    if (this.state.item.description != ""){
         console.log(this.props.todoList);
         this.props.todoList.items.push(this.state.item);
         this.props.addItemHandler(this.props.todoList);
+        this.props.updatedListHandler(this.props.todoList);
         this.props.history.push("/todoList/" + this.props.match.params.id);
       
-    
+    }
+    else {
+      window.alert("Cannot create item with no description!");
+    }
 
   }
 
@@ -119,6 +122,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   addItemHandler: (todoList) => dispatch(addItemHandler(todoList)),
+  updatedListHandler: (todoList) => dispatch(updatedListHandler(todoList)),
 
 });
 

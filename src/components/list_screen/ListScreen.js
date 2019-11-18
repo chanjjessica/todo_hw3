@@ -8,6 +8,8 @@ import {updatedListHandler} from '../../store/database/asynchHandler';
 import { Modal, Button } from 'react-materialize';
 import { deleteTodoList } from '../../store/actions/actionCreators';
 import {NavLink} from 'react-router-dom';
+import {sortTasksHandler, sortDueDatesHandler, sortCompletedHandler} from '../../store/database/asynchHandler';
+
 
 class ListScreen extends Component {
     state = {
@@ -17,6 +19,114 @@ class ListScreen extends Component {
         increase_due_date_sorted: false,
         increase_completed_sorted : false,
     }
+
+
+  sortTasks = (list, itemsList) => {
+    var n = itemsList.length;
+    var sorted = false;
+    for (var i=0; i < n-1; i++) {
+      for (var j=0; j<n-i-1; j++){
+        if (itemsList[j].description > itemsList[j+1].description){
+          var temp = itemsList[j].description;
+          itemsList[j].description = itemsList[j + 1].description;
+          itemsList[j+1].description = temp;
+          sorted = true;
+
+        }
+      }
+    }
+    if (sorted == false){
+      for (var i=0; i < n-1; i++) {
+        for (var j=0; j<n-i-1; j++){
+          if (itemsList[j].description < itemsList[j+1].description){
+            var temp = itemsList[j].description;
+            itemsList[j].description = itemsList[j + 1].description;
+            itemsList[j+1].description = temp;
+  
+          }
+        }
+      }
+    }
+
+
+    const {props} = this;
+    const {firebase} = this;
+
+    props.sortTasks(list, itemsList, firebase);
+
+
+
+  }
+
+  sortDueDates = (list, itemsList) => {
+    var n = itemsList.length;
+    var sorted = false;
+    for (var i=0; i < n-1; i++) {
+      for (var j=0; j<n-i-1; j++){
+        if (itemsList[j].due_date > itemsList[j+1].due_date){
+          var temp = itemsList[j].due_date;
+          itemsList[j].due_date = itemsList[j + 1].due_date;
+          itemsList[j+1].due_date = temp;
+          sorted = true;
+
+        }
+      }
+    }
+    if (sorted == false){
+      for (var i=0; i < n-1; i++) {
+        for (var j=0; j<n-i-1; j++){
+          if (itemsList[j].due_date < itemsList[j+1].due_date){
+            var temp = itemsList[j].due_date;
+            itemsList[j].due_date = itemsList[j + 1].due_date;
+            itemsList[j+1].due_date = temp;
+  
+          }
+        }
+      }
+    }
+
+
+    const {props} = this;
+    const {firebase} = this;
+
+    props.sortDueDates(list, itemsList, firebase);
+
+
+  }
+
+  sortCompleted = (list, itemsList) => {
+    var n = itemsList.length;
+    var sorted = false;
+    for (var i=0; i < n-1; i++) {
+      for (var j=0; j<n-i-1; j++){
+        if (itemsList[j].completed > itemsList[j+1].completed){
+          var temp = itemsList[j].completed;
+          itemsList[j].completed = itemsList[j + 1].completed;
+          itemsList[j+1].completed = temp;
+          sorted = true;
+
+        }
+      }
+    }
+    if (sorted == false){
+      for (var i=0; i < n-1; i++) {
+        for (var j=0; j<n-i-1; j++){
+          if (itemsList[j].completed < itemsList[j+1].completed){
+            var temp = itemsList[j].completed;
+            itemsList[j].completed = itemsList[j + 1].completed;
+            itemsList[j+1].completed = temp;
+  
+          }
+        }
+      }
+    }
+
+
+    const {props} = this;
+    const {firebase} = this;
+
+    props.sortCompleted(list, itemsList, firebase);
+  }
 
     handleChange = (e) => {
         
@@ -110,10 +220,10 @@ class ListScreen extends Component {
                 </div>
                 <div id="list_items_container">
                     <div id="list_item_header_card" className="z-depth-0 todo-list-link grey row">
-                        <div id="list_item_task_header" className="col s3">Task</div> 
+                        <div id="list_item_task_header" className="col s3" onClick={() => this.sortTasks(todoList,todoList.items)}>Task</div> 
                         {/* Remember to do onclick for sorting for each header */}
-                        <div id="list_item_due_date_header" className="col s3">Due Date</div>
-                        <div id="list_item_status_header" className="col s2">Status</div>
+                        <div id="list_item_due_date_header" className="col s3" onClick={() => this.sortDueDates(todoList, todoList.items)}>Due Date</div>
+                        <div id="list_item_status_header" className="col s2" onClick={() => this.sortCompleted(todoList, todoList.items)}>Status</div>
                     </div>
                 <ItemsList todoList={todoList} />
     
@@ -148,6 +258,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => ({
     updatedList: (todoList) => dispatch(updatedListHandler(todoList)),
     deleteTodoList: (todoLists) => dispatch(deleteTodoList(todoLists)),
+    sortTasks: (list, itemsList, firebase) => dispatch(sortTasksHandler(list, itemsList, firebase)),
+    sortDueDates: (list, itemsList, firebase) => dispatch(sortDueDatesHandler(list, itemsList, firebase)),
+    sortCompleted: (list, itemsList, firebase) => dispatch(sortCompletedHandler(list, itemsList, firebase)),
   });
 
 export default compose(

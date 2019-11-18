@@ -73,3 +73,30 @@ export const editItemHandler = (todoList) => (dispatch, getState, { getFirestore
 
 };
 
+export const sortTasksHandler = (list, todoList) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  firestore.collection("todoLists").doc(list.id).update({
+    "items": todoList,
+
+  })
+
+};
+
+export const sortDueDatesHandler = (list, todoList) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  firestore.collection("todoLists").doc(list.id).update({
+    "items": todoList,
+
+  })
+
+};
+
+export const sortCompletedHandler = (list, todoList) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  firestore.collection("todoLists").doc(list.id).update({
+    "items": todoList,
+
+  })
+
+};
+

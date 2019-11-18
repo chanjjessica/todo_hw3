@@ -53,13 +53,17 @@ class EditItemScreen extends Component {
   }
 
   handleSubmit = (e) => {
-e.preventDefault();
+    e.preventDefault();
+    this.state.item.key = this.props.match.params.key;
+
     // console.log(this.state.item.completed);
+    const index = this.state.item.key;
+    console.log(index);
 
-
-
+    if (this.props.todoList.items[index].description != ""){
         this.props.editItemHandler(this.props.todoList);
         this.props.history.push("/todoList/" + this.props.match.params.id);
+    }
       
     
 
@@ -84,7 +88,7 @@ e.preventDefault();
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
           <h5 className="grey-text text-darken-3">Item</h5>
-          <div className="input-field">
+          <div className="input-field active">
             <label htmlFor="description">Description</label>
             <input className="active" type="text" name="description" id="description" onChange={this.handleChange} 
             value = {this.props.todoList.items[key].description}/>
@@ -95,7 +99,7 @@ e.preventDefault();
             value = {this.props.todoList.items[key].assigned_to}/>
           </div>
           <div>
-            <label htmlFor="due_date">Due Date</label>
+            <label htmlFor="due_date active">Due Date</label>
             <input className="active" type="date" name="due_date" id="due_date" onChange={this.handleChange} 
             value = {this.props.todoList.items[key].due_date}/>
           </div>
