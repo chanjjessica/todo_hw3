@@ -6,11 +6,16 @@ import ItemsList from './ItemsList.js'
 import { firestoreConnect } from 'react-redux-firebase';
 import {updatedListHandler} from '../../store/database/asynchHandler';
 import { Modal, Button } from 'react-materialize';
+import { deleteTodoList } from '../../store/actions/actionCreators';
+import {NavLink} from 'react-router-dom';
 
 class ListScreen extends Component {
     state = {
         name: '',
         owner: '',
+        increase_task_sorted: false,
+        increase_due_date_sorted: false,
+        increase_completed_sorted : false,
     }
 
     handleChange = (e) => {
@@ -34,22 +39,66 @@ class ListScreen extends Component {
 
     }
 
+    handleSubmit = (e) => {
+      e.preventDefault();
+      this.props.deleteTodoList(this.props.todoList.id);
+      this.props.history.push('/');
+
+    }
+
+
+
     render() {
         const auth = this.props.auth;
         const todoList = this.props.todoList;
+        const todoLists = this.props.todoLists;
+
+        // if (todoLists.indexOf(todoList) != 0){
+        //   // console.log(this.props.todoList.index);
+        //   this.props.updatedList(this.props.todoList);
+        // }
+
         if (!auth.uid) {
             return <Redirect to="/" />;
         }
         if(!todoList)
         return <React.Fragment />
         return (
+          
             <div className="container white">
+            <form>
+                <Modal 
+                header="Delete list?" 
+
+                trigger={
+                  <div class="btn-floating btn-large pink lighten-1 pulse" id="trash">
+                    <i class="large material-icons">delete</i>
+                  </div>
+                }
+                actions={
+                  <div>
+                    <Button className="left btn-large pink lighten-1" onClick={this.handleSubmit}>CONFIRM</Button>
+                    <Button className="right btn-large pink lighten-1" modal="close">CANCEL</Button>
+
+
+                  </div>
+                }
+                options= {
+                  {opacity: 0.5, inDuration: 600, outDuration:600, startingTop: '25%', endingTop: '25%'}
+                }
+                >
+                  <h5>
+                    Are you sure you want to delete this list? <br></br><br></br>
+                    <b>This list will not be retrievable.</b>
+                  </h5>
+                </Modal>
+            </form>
                 
                 <h5 className="grey-text text-darken-3">Todo List</h5>
 
-                <div class="btn-floating btn-large pink lighten-1" id="trash">
+                {/* <div class="btn-floating btn-large pink lighten-1" id="trash">
                     <i class="large material-icons">delete</i>
-                </div>
+                </div> */}
 
                 <div className="input-field">
                     <label htmlFor="email" className="active">Name</label>
@@ -69,12 +118,13 @@ class ListScreen extends Component {
                 <ItemsList todoList={todoList} />
     
                 </div>
-                <button className="btn-floating btn-large pink lighten-1" id="add_card">
-                  {/* <button type="submit" id="list_item_add_card" className="btn pink lighten-1 row">+</button>        */}
-                    {/* <a className="btn-floating pink lighten-1"> */}
-                      <i className="material-icons ">add</i>
-                    {/* </a> */}
-                  </button>     
+                  <div>
+                    <NavLink to={"/todoList/"+todoList.id+"/newItem"} todoList={todoList}
+                      className="btn-floating btn-large pink lighten-1" id="add_card"
+                    >
+                    <i className="material-icons">add</i>
+                    </NavLink>
+                  </div>
             </div>
         );
     }
@@ -85,16 +135,19 @@ const mapStateToProps = (state, ownProps) => {
   const { todoLists } = state.firestore.data;
   const todoList = todoLists ? todoLists[id] : null;
   if(todoList)
-	todoList.id = id;
-
+  todoList.id = id;
+  // if (todoLists.indexOf(todoList) != 0)
+  //   this.props.updatedList(todoList);
   return {
     todoList,
+    todoLists,
     auth: state.firebase.auth,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
     updatedList: (todoList) => dispatch(updatedListHandler(todoList)),
+    deleteTodoList: (todoLists) => dispatch(deleteTodoList(todoLists)),
   });
 
 export default compose(

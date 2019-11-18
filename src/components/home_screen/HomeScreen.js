@@ -23,6 +23,8 @@ class HomeScreen extends Component {
         // const { props, state } = this;
         // const { firebase } = props;
         props.newList(this.props.todoLists, firebase, list);
+        // props.updatedList(this.props.todoList);
+
     }
 
     render() {
@@ -57,7 +59,9 @@ class HomeScreen extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        // todoLists: state.firestore.data
+
     };
 };
 
@@ -68,6 +72,6 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
-      { collection: 'todoLists' },
+      { collection: 'todoLists' , orderBy:['last_updated',"desc"]},
     ]),
 )(HomeScreen);

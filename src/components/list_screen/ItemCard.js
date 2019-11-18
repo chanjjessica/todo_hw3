@@ -33,9 +33,6 @@ class ItemCard extends React.Component {
     }
 
     handleMoveUp = (item) => {
-        console.log("this is item");
-        console.log(item);
-        console.log(this.todoList.items);
         const { props } = this;
         let index = this.props.todoList.items.indexOf(item);
         console.log(index);
@@ -43,16 +40,11 @@ class ItemCard extends React.Component {
             this.todoList.items[index] = this.todoList.items[index-1];
             this.todoList.items[index-1] = item;
             props.updatedList(this.todoList);
-            console.log("moved up");
-            console.log(this.todoList);
 
         }
     }
 
     handleMoveDown = (item) => {
-        // console.log("this is item");
-        // console.log(item);
-        // console.log(this.todoList.items);
         const { props } = this;
         let index = this.props.todoList.items.indexOf(item);
         console.log(index);
@@ -60,21 +52,20 @@ class ItemCard extends React.Component {
             this.todoList.items[index] = this.todoList.items[index+1];
             this.todoList.items[index+1] = item;
             props.updatedList(this.todoList);
-            console.log("moved down");
-            console.log(this.todoList);
+            // console.log("moved down");
+            // console.log(this.todoList);
 
         }
     }
 
     handleDeleteItem = (item) => {
-
         const { props } = this;
         let index = this.props.todoList.items.indexOf(item);
         console.log(index);
         this.todoList.items.splice(index, 1);
         props.updatedList(this.todoList);
-        console.log("deleted");
-        console.log(this.todoList);
+        // console.log("deleted");
+        // console.log(this.todoList);
 
         
     }
@@ -105,7 +96,7 @@ class ItemCard extends React.Component {
 
                         {/* <Col className="col s4 offset-s11">  */}
                         <Button
-                            className="pink"
+                            className="pink lighten-1 pulse"
                             id="fab"
                             floating
                             fab={{direction: 'left'}}
@@ -126,14 +117,6 @@ class ItemCard extends React.Component {
                                 <div class="btn-floating  grey" onClick={()=>this.handleDeleteItem(item)} style={{position:'relative'}}>
                                     <i class="large material-icons">clear</i>
                                 </div>
-                                {/* <Button floating icon={<Icon />} className="red" style={{position:'relative'}}
-/>
-                                <Button floating icon={<Icon />} className="yellow darken-1" />
-                                <Button floating icon={<Icon />} className="green" /> */}
-{/* 
-                                <div class="btn-floating pink lighten-1">
-                                    <i class="large material-icons">keyboard_arrow_left</i>
-                                </div> */}
                             
                             </Button>
 

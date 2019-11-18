@@ -43,3 +43,9 @@ export function createTodoListError(error) {
         error
     }
 }
+export const deleteTodoList = (todoList) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        const firestore = getFirestore();
+        firestore.collection('todoLists').doc(todoList).delete();
+    }
+}
