@@ -15,9 +15,8 @@ class ListScreen extends Component {
     state = {
         name: '',
         owner: '',
-        increase_task_sorted: false,
-        increase_due_date_sorted: false,
-        increase_completed_sorted : false,
+        updated: false
+
     }
 
 
@@ -167,6 +166,11 @@ class ListScreen extends Component {
         //   // console.log(this.props.todoList.index);
         //   this.props.updatedList(this.props.todoList);
         // }
+
+        if (this.state.updated == false) {
+          this.props.updatedList(this.props.todoList);
+          this.state.updated=true;
+        }
 
         if (!auth.uid) {
             return <Redirect to="/" />;
