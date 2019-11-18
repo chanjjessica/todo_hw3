@@ -32,7 +32,8 @@ class ItemCard extends React.Component {
 
     }
 
-    handleMoveUp = (item) => {
+    handleMoveUp = (item, e) => {
+        e.preventDefault();
         const { props } = this;
         let index = this.props.todoList.items.indexOf(item);
         console.log(index);
@@ -44,7 +45,8 @@ class ItemCard extends React.Component {
         }
     }
 
-    handleMoveDown = (item) => {
+    handleMoveDown = (item,e ) => {
+        e.preventDefault();
         const { props } = this;
         let index = this.props.todoList.items.indexOf(item);
         console.log(index);
@@ -58,7 +60,8 @@ class ItemCard extends React.Component {
         }
     }
 
-    handleDeleteItem = (item) => {
+    handleDeleteItem = (item,e ) => {
+        e.preventDefault();
         const { props } = this;
         let index = this.props.todoList.items.indexOf(item);
         console.log(index);
@@ -80,7 +83,7 @@ class ItemCard extends React.Component {
 
         return (
                 
-            <div className="card z-depth-0 todo-list-link grey lighten-3">
+            <div className="card z-depth-0 todo-list-link black-text ">
                     <Row className="card-content row"> 
                         <Col className="col s3">
                             
@@ -106,15 +109,15 @@ class ItemCard extends React.Component {
 
                             >
 
-                                <div class="btn-floating grey" onClick={()=>this.handleMoveUp(item)} style={{position:'relative'}}>
+                                <div class="btn-floating grey" onClick={this.handleMoveUp.bind(this, item)} style={{position:'relative'}}>
                                     <i class="large material-icons">arrow_upward</i>
                                 </div>
 
-                                <div class="btn-floating grey" onClick={()=>this.handleMoveDown(item)} style={{position:'relative'}}>
+                                <div class="btn-floating grey" onClick={this.handleMoveDown.bind(this,item)} style={{position:'relative'}}>
                                     <i class="large material-icons">arrow_downward</i>
                                 </div>
 
-                                <div class="btn-floating  grey" onClick={()=>this.handleDeleteItem(item)} style={{position:'relative'}}>
+                                <div class="btn-floating  grey" onClick={this.handleDeleteItem.bind(this,item)} style={{position:'relative'}}>
                                     <i class="large material-icons">clear</i>
                                 </div>
                             

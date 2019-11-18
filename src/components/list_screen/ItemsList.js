@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import ItemCard from './ItemCard';
 import { firestoreConnect } from 'react-redux-firebase';
+import { Link } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
+
 
 class ItemsList extends React.Component {
 
@@ -79,7 +82,11 @@ class ItemsList extends React.Component {
                     item.id = item.key;
                     {/* item.key = item.id; */}
                     return (
+                        <NavLink to={"/todoList/"+todoList.id+"/"+item.key+"/edit"}
+                todoList={todoList} key={todoList.id}       
+                        > 
                         <ItemCard todoList={todoList} item={item} />
+                        </NavLink>
                     );})
                 }
             </div>

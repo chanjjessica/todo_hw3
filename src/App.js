@@ -10,6 +10,8 @@ import LoginScreen from './components/login_screen/LoginScreen.js';
 import HomeScreen from './components/home_screen/HomeScreen.js';
 import ListScreen from './components/list_screen/ListScreen.js';
 import ItemScreen from './components/list_screen/ItemScreen.js';
+import EditItemScreen from './components/list_screen/EditItemScreen.js';
+
 
 import DatabaseTester from './test/DatabaseTester';
 
@@ -30,7 +32,8 @@ class App extends Component {
               <Route path="/register" component={RegisterScreen} />
               <Route path="/login" component={LoginScreen} />
               <Route exact path="/todoList/:id" component={ListScreen} />
-              <Route exact path="/todoList/:id/newItem" component={ItemScreen} />
+              <Route path="/todoList/:id/newItem" component={ItemScreen} />
+              <Route path="/todoList/:id/:key/edit" component={EditItemScreen} />
 
               <Route path="/:any" component={HomeScreen} />
             </Switch>

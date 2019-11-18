@@ -5,9 +5,9 @@ import { compose } from 'redux';
 import { Redirect } from 'react-router-dom';
 import { registerHandler } from '../../store/database/asynchHandler';
 import Checkbox from 'react-materialize/lib/Checkbox';
-import {addItemHandler} from '../../store/database/asynchHandler';
+import {editItemHandler} from '../../store/database/asynchHandler';
 
-class ItemScreen extends Component {
+class EditItemScreen extends Component {
   todoList = this.props.todoList;
 
   state = {
@@ -20,35 +20,45 @@ class ItemScreen extends Component {
   }
 
   handleChange = (e) => {
-    const length = this.props.todoList.items.length;
+    this.state.item.key = this.props.match.params.key;
     const { target } = e;
+    const index = this.state.item.key;
+
     this.setState(state =>({
       ...state,
       [target.id]: target.value,
     }));
     if (target.name == "description"){
+        this.state.item.description = target.value;
+        this.props.todoList.items[index].description = target.value;
 
-      this.state.item.description = target.value;
     }
-    if (target.name == "assigned_to")
-      this.state.item.assigned_to = target.value;
-    if (target.name == "due_date")
-      this.state.item.due_date = target.value;
-
+    if (target.name == "assigned_to"){
+        this.state.item.assigned_to = target.value;
+        this.props.todoList.items[index].assigned_to = target.value;
+    }
+    if (target.name == "due_date"){
+        this.state.item.due_date = target.value;
+        this.props.todoList.items[index].due_date = target.value;
+    }
     if (document.getElementById('mySwitch').checked){
-      this.state.item.completed = true;
+        this.props.todoList.items[index].completed = true;
+        this.state.item.completed = true;
     }
-    this.state.item.key = length;
+    else{
+        this.props.todoList.items[index].completed = false;
+        this.state.item.completed = false;
+    }
+    // this.state.key = length;
   }
 
   handleSubmit = (e) => {
-    e.preventDefault();
+e.preventDefault();
     // console.log(this.state.item.completed);
 
 
-        console.log(this.props.todoList);
-        this.props.todoList.items.push(this.state.item);
-        this.props.addItemHandler(this.props.todoList);
+
+        this.props.editItemHandler(this.props.todoList);
         this.props.history.push("/todoList/" + this.props.match.params.id);
       
     
@@ -62,7 +72,13 @@ class ItemScreen extends Component {
 
   render() {
     const { auth, authError } = this.props;
-
+    const todoList = this.props.todoList;
+    const key = this.props.match.params.key;
+    if (!todoList)
+    return <React.Fragment/>;
+    if (!this.props.auth.uid) {
+        return <Redirect to ="/"/>;
+    }
 
     return (
       <div className="container">
@@ -70,18 +86,22 @@ class ItemScreen extends Component {
           <h5 className="grey-text text-darken-3">Item</h5>
           <div className="input-field">
             <label htmlFor="description">Description</label>
-            <input className="active" type="text" name="description" id="description" onChange={this.handleChange} />
+            <input className="active" type="text" name="description" id="description" onChange={this.handleChange} 
+            value = {this.props.todoList.items[key].description}/>
           </div>
-          <div className="input-field">
+          <div className="input-field active">
             <label htmlFor="assigned_to">Assigned To</label>
-            <input className="active" type="text" name="assigned_to" id="assigned_to" onChange={this.handleChange} />
+            <input className="active" type="text" name="assigned_to" id="assigned_to" onChange={this.handleChange} 
+            value = {this.props.todoList.items[key].assigned_to}/>
           </div>
           <div>
             <label htmlFor="due_date">Due Date</label>
-            <input className="active" type="date" name="due_date" id="due_date" onChange={this.handleChange} />
+            <input className="active" type="date" name="due_date" id="due_date" onChange={this.handleChange} 
+            value = {this.props.todoList.items[key].due_date}/>
           </div>
           <div>
-            <Checkbox label="Completed" value="false" onChange={this.handleChange} id="mySwitch">
+            <Checkbox label="Completed"  onChange={this.handleChange} id="mySwitch"
+            checked = {this.props.todoList.items[key].completed}>
             </Checkbox>
           </div>
           <div className="input-field row">
@@ -118,7 +138,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addItemHandler: (todoList) => dispatch(addItemHandler(todoList)),
+  editItemHandler: (todoList) => dispatch(editItemHandler(todoList)),
 
 });
 
@@ -127,4 +147,4 @@ export default compose(
   firestoreConnect([
     { collection: 'todoLists' },
   ]),
-)(ItemScreen);
+)(EditItemScreen);

@@ -64,3 +64,12 @@ export const addItemHandler = (todoList) => (dispatch, getState, { getFirestore 
 
 };
 
+export const editItemHandler = (todoList) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  firestore.collection("todoLists").doc(todoList.id).update({
+    "items": todoList.items,
+
+  })
+
+};
+
